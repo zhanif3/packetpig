@@ -1,0 +1,31 @@
+# Copyright 2001-2005 Sourcefire, Inc. All Rights Reserved
+#
+# This file may contain proprietary rules that were created, tested and
+# certified by Sourcefire, Inc. (the "VRT Certified Rules") as well as
+# rules that were created by Sourcefire and other third parties and
+# distributed under the GNU General Public License (the "GPL Rules").  The
+# VRT Certified Rules contained in this file are the property of
+# Sourcefire, Inc. Copyright 2005 Sourcefire, Inc. All Rights Reserved.
+# The GPL Rules created by Sourcefire, Inc. are the property of
+# Sourcefire, Inc. Copyright 2002-2005 Sourcefire, Inc. All Rights
+# Reserved.  All other GPL Rules are owned and copyrighted by their
+# respective owners (please see www.snort.org/contributors for a list of
+# owners and their respective copyrights).  In order to determine what
+# rules are VRT Certified Rules or GPL Rules, please refer to the VRT
+# Certified Rules License Agreement.
+#
+#
+# $Id: bad-traffic.rules,v 1.52.2.4 2011-09-13 16:40:04 vrtbuild Exp $
+#------------------
+# BAD TRAFFIC RULES
+#------------------
+# These signatures are representitive of traffic that should never be seen on
+# any network.  None of these signatures include datagram content checking
+# and are extremely quick signatures
+#
+
+# linux happens.  Blah
+alert ip $EXTERNAL_NET any -> $HOME_NET any (msg:"BAD-TRAFFIC Sun Solaris DHCP Client Arbitrary Code Execution attempt"; ip_proto:17; content:"|00 44 00 43|"; depth:4; reference:bugtraq,14687; reference:cve,2005-2870; classtype:attempted-admin; sid:17662; rev:4;)
+# alert tcp $HOME_NET any -> $HOME_NET 42 (msg:"BAD-TRAFFIC Microsoft WINS service oversize payload exploit attempt"; flow:to_server,established,no_stream; dsize:>1400; reference:cve,2011-1248; reference:url,www.microsoft.com/technet/security/bulletin/MS11-035.mspx; classtype:attempted-admin; sid:18950; rev:1;)
+alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"BAD-TRAFFIC SSH brute force login attempt"; flow:to_server,established; content:"SSH-"; depth:4; detection_filter:track by_src, count 5, seconds 60; classtype:misc-activity; sid:19559; rev:1;)
+alert udp $EXTERNAL_NET any -> $HOME_NET [1027:1050] (msg:"BAD-TRAFFIC WINS internal communications on network exploit attempt"; flow:to_server; dsize:24; content:"|00 00 00|"; depth:3; offset:1; byte_test:1,<,2,0; detection_filter:track by_src,count 10, seconds 2; reference:cve,2011-1984; reference:url,www.microsoft.com/technet/security/bulletin/MS11-070.mspx; classtype:attempted-user; sid:20120; rev:1;)
