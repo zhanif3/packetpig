@@ -114,7 +114,8 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             long tv_usec = packet.getPacketHeader().getTsUsec();
             long ts_stamp = tv_sec + (tv_usec/1000);
             long ts = tv_sec * 1000 + tv_usec / 1000;
-            key = new Date(ts).getTime() / 1000;
+//            key = new Date(ts).getTime() / 1000;
+            key = 123456;
             long timestamp = new Date(ts_stamp).getTime();
             boolean signed = dns.isSigned();
 //            int original_id = dns.getTSIG().getOriginalID();
