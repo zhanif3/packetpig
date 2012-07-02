@@ -148,7 +148,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, id); // transaction id
                 t.set(i++, timestamp);
                 t.set(i++, signed);
-                t.set(i++, srcPort);
+                t.set(i++, dstPort);
                 t.set(i++, mode); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
                 
