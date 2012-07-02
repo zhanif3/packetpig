@@ -112,7 +112,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             
             long tv_sec = packet.getPacketHeader().getTsSec();
             long tv_usec = packet.getPacketHeader().getTsUsec();
-            long ts_stamp = tv_sec +tv_usec;
+            long ts_stamp = tv_sec + (tv_usec/1000);
             long ts = tv_sec * 1000 + tv_usec / 1000;
             key = new Date(ts).getTime() / 1000;
             long timestamp = new Date(ts_stamp).getTime();
@@ -121,6 +121,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
 //            byte[] signature = dns.getTSIG().getSignature();
             int id = dns.getHeader().getID();
             String mode = dns.getHeader().getFlag(Flags.QR)?"response":"question";
+            
             for(Record rec : dns.getSectionArray(Section.QUESTION))
             {
             	int i = 0;
