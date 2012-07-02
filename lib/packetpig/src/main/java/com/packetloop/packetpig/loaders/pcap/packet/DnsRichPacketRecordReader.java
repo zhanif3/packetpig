@@ -114,7 +114,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             long tv_usec = packet.getPacketHeader().getTsUsec();
             long ts = tv_sec * 1000 + tv_usec / 1000;
             key = new Date(ts).getTime() / 1000;
-            
+            long timestamp = new Date(ts).getTime() / 1000;
             int id = dns.getHeader().getID();
             String mode = dns.getHeader().getFlag(Flags.QR)?"response":"question";
 
@@ -123,7 +123,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             	int i = 0;
             	Tuple t = TupleFactory.getInstance().newTuple(10);
             	t.set(i++, id); // transaction id
-            	t.set(i++, key);
+            	t.set(i++, timestamp);
             	t.set(i++, mode); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
                 t.set(i++, null); // answer.ip OR null (for ques)
@@ -140,7 +140,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             	int i = 0;
             	Tuple t = TupleFactory.getInstance().newTuple(10);
                 t.set(i++, id); // transaction id
-                t.set(i++, key);
+                t.set(i++, timestamp);
                 t.set(i++, mode); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
                 
