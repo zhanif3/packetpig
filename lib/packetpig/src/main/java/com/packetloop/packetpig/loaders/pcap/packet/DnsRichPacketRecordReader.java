@@ -134,6 +134,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, srcIP);
                 t.set(i++, srcPort);
                 t.set(i++, dstIP);
+                t.set(i++, dstPort);
                 t.set(i++, rec.getDClass());
                 t.set(i++, rec.getType());
                 tupleQueue.add(t);
@@ -175,6 +176,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, srcIP);
                 t.set(i++, srcPort);
                 t.set(i++, dstIP);
+                t.set(i++, dstPort);
                 t.set(i++, rec.getDClass());
                 t.set(i++, rec.getType());
                 tupleQueue.add(t);
