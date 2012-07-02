@@ -173,6 +173,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 }
                 t.set(i++, rec.getTTL()); // qttl
                 t.set(i++, srcIP);
+                t.set(i++, srcPort);
                 t.set(i++, dstIP);
                 t.set(i++, rec.getDClass());
                 t.set(i++, rec.getType());
