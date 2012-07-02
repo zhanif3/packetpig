@@ -127,7 +127,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             	int i = 0;
             	Tuple t = TupleFactory.getInstance().newTuple(12);
             	t.set(i++, id); // transaction id
-            	t.set(i++, timestamp);
+/*            	t.set(i++, timestamp);
             	t.set(i++, signed);
             	t.set(i++, srcPort);
             	t.set(i++, mode); // mode ('query' or 'response')
@@ -135,9 +135,9 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, null); // answer.ip OR null (for ques)
                 t.set(i++, 0); // qttl
                 t.set(i++, srcIP);
-                t.set(i++, dstIP);
+                t.set(i++, srcIP);
                 t.set(i++, rec.getDClass());
-                t.set(i++, rec.getType());
+                t.set(i++, rec.getType()); */
                 tupleQueue.add(t);
             }
             
@@ -146,7 +146,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             	int i = 0;
             	Tuple t = TupleFactory.getInstance().newTuple(12);
                 t.set(i++, id); // transaction id
-                t.set(i++, timestamp);
+/*                t.set(i++, timestamp);
                 t.set(i++, signed);
                 t.set(i++, dstPort);
                 t.set(i++, mode); // mode ('query' or 'response')
@@ -178,7 +178,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, srcIP);
                 t.set(i++, dstIP);
                 t.set(i++, rec.getDClass());
-                t.set(i++, rec.getType());
+                t.set(i++, rec.getType()); */
                 tupleQueue.add(t);
             }
             
