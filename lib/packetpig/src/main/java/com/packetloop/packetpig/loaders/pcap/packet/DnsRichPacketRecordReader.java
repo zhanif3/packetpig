@@ -114,12 +114,9 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             long tv_usec = packet.getPacketHeader().getTsUsec();
             long ts_stamp = tv_sec + (tv_usec/1000);
             long ts = tv_sec * 1000 + tv_usec / 1000;
-//            key = new Date(ts).getTime() / 1000;
-            key = 123456;
+            key = new Date(ts).getTime() / 1000;
             long timestamp = new Date(ts_stamp).getTime();
             boolean signed = dns.isSigned();
-//            int original_id = dns.getTSIG().getOriginalID();
-//            byte[] signature = dns.getTSIG().getSignature();
             int id = dns.getHeader().getID();
             String mode = dns.getHeader().getFlag(Flags.QR)?"response":"question";
             
@@ -129,16 +126,16 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             	Tuple t = TupleFactory.getInstance().newTuple(12);
             	t.set(i++, timestamp); // transaction id
             	t.set(i++, id);
-/*            	t.set(i++, signed);
-            	t.set(i++, srcPort);
+            	t.set(i++, signed);
             	t.set(i++, mode); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
                 t.set(i++, null); // answer.ip OR null (for ques)
                 t.set(i++, 0); // qttl
                 t.set(i++, srcIP);
-                t.set(i++, srcIP);
+                t.set(i++, srcPort);
+                t.set(i++, dstIP);
                 t.set(i++, rec.getDClass());
-                t.set(i++, rec.getType()); */
+                t.set(i++, rec.getType());
                 tupleQueue.add(t);
             }
             
@@ -148,8 +145,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             	Tuple t = TupleFactory.getInstance().newTuple(12);
                 t.set(i++, timestamp); // transaction id
                 t.set(i++, id);
-                /*                t.set(i++, signed);
-                t.set(i++, dstPort);
+                t.set(i++, signed);
                 t.set(i++, mode); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
                 
@@ -179,7 +175,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, srcIP);
                 t.set(i++, dstIP);
                 t.set(i++, rec.getDClass());
-                t.set(i++, rec.getType()); */
+                t.set(i++, rec.getType());
                 tupleQueue.add(t);
             }
             
