@@ -121,8 +121,9 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             for(Record rec : dns.getSectionArray(Section.QUESTION))
             {
             	int i = 0;
-            	Tuple t = TupleFactory.getInstance().newTuple(10);
+            	Tuple t = TupleFactory.getInstance().newTuple(11);
             	t.set(i++, id); // transaction id
+            	t.set(i++, packet.getPacketHeader().getTsUsec());
             	t.set(i++, dns.getTSIG().getSignature());
             	t.set(i++, mode); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
@@ -138,8 +139,9 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             for(Record rec : dns.getSectionArray(Section.ANSWER))
             {	
             	int i = 0;
-            	Tuple t = TupleFactory.getInstance().newTuple(10);
+            	Tuple t = TupleFactory.getInstance().newTuple(11);
                 t.set(i++, id); // transaction id
+                t.set(i++, packet.getPacketHeader().getTsUsec());
                 t.set(i++, dns.getTSIG().getSignature());
                 t.set(i++, mode); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
