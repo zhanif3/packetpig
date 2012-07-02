@@ -28,6 +28,7 @@ import org.xbill.DNS.PTRRecord;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.SRVRecord;
 import org.xbill.DNS.Section;
+import org.xbill.DNS.TSIGRecord;
 import org.xbill.DNS.TXTRecord;
 
 import com.packetloop.packetpig.loaders.pcap.PcapRecordReader;
@@ -116,7 +117,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             key = new Date(ts).getTime() / 1000;
             
             int id = dns.getHeader().getID();
-            byte[] signature = dns.getTSIG().getSignature();
+            TSIGRecord signature = dns.getTSIG();
             String mode = dns.getHeader().getFlag(Flags.QR)?"response":"question";
 
             for(Record rec : dns.getSectionArray(Section.QUESTION))
