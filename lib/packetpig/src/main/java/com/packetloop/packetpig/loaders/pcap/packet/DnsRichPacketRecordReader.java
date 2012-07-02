@@ -123,7 +123,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             	int i = 0;
             	Tuple t = TupleFactory.getInstance().newTuple(10);
             	t.set(i++, id); // transaction id
-            	t.set(i++, dns.getTSIG().toString());
+            	t.set(i++, dns.getTSIG().getSignature());
             	t.set(i++, mode); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
                 t.set(i++, null); // answer.ip OR null (for ques)
