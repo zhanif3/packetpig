@@ -119,7 +119,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             boolean signed = dns.isSigned();
 //            int original_id = dns.getTSIG().getOriginalID();
 //            byte[] signature = dns.getTSIG().getSignature();
-            int id = dns.getHeader().getID();
+//            int id = dns.getHeader().getID();
             String mode = dns.getHeader().getFlag(Flags.QR)?"response":"question";
             
             for(Record rec : dns.getSectionArray(Section.QUESTION))
