@@ -123,7 +123,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             for(Record rec : dns.getSectionArray(Section.QUESTION))
             {
             	int i = 0;
-            	Tuple t = TupleFactory.getInstance().newTuple(12);
+            	Tuple t = TupleFactory.getInstance().newTuple(13);
             	t.set(i++, timestamp); // transaction id
             	t.set(i++, id);
             	t.set(i++, signed);
@@ -143,7 +143,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             for(Record rec : dns.getSectionArray(Section.ANSWER))
             {	
             	int i = 0;
-            	Tuple t = TupleFactory.getInstance().newTuple(12);
+            	Tuple t = TupleFactory.getInstance().newTuple(13);
                 t.set(i++, timestamp); // transaction id
                 t.set(i++, id);
                 t.set(i++, signed);
