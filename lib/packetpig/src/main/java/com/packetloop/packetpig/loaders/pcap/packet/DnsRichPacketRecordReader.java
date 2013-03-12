@@ -110,7 +110,6 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
 				eth.decode(packet);
             }
             while(!valid);
-            
             long tv_sec = packet.getPacketHeader().getTsSec();
             long tv_usec = packet.getPacketHeader().getTsUsec();
             long ts_stamp = tv_sec + (tv_usec/1000);
@@ -119,14 +118,13 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             long timestamp = new Date(ts_stamp).getTime();
             boolean signed = dns.isSigned();
             int id = dns.getHeader().getID();
-
             //String mode = dns.getHeader().getFlag(Flags.QR)?"response":"question";
             
             for(Record rec : dns.getSectionArray(Section.QUESTION))
             {
             	int i = 0;
                 OPTRecord r = dns.getOPT();
-            	Tuple t = TupleFactory.getInstance().newTuple(14);
+            	Tuple t = TupleFactory.getInstance().newTuple(15);
             	t.set(i++, timestamp); // transaction id
             	t.set(i++, id);
             	t.set(i++, signed);
@@ -140,6 +138,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, dstPort);
                 t.set(i++, rec.getDClass());
                 t.set(i++, rec.getType());
+                t.set(i++, dns.getRcode());
                 if(r != null){
                 	t.set(i++, r.rdataToString());
                 } else {
@@ -152,7 +151,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             {	
             	int i = 0;
             	OPTRecord r = dns.getOPT();
-            	Tuple t = TupleFactory.getInstance().newTuple(14);
+            	Tuple t = TupleFactory.getInstance().newTuple(15);
                 t.set(i++, timestamp); // transaction id
                 t.set(i++, id);
                 t.set(i++, signed);
@@ -188,6 +187,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, dstPort);
                 t.set(i++, rec.getDClass());
                 t.set(i++, rec.getType());
+                t.set(i++, dns.getRcode());
                 if(r != null){
                 	t.set(i++, r.rdataToString());
                 } else {
