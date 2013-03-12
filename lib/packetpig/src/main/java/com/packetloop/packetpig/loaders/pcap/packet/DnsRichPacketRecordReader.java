@@ -24,6 +24,7 @@ import org.xbill.DNS.ARecord;
 import org.xbill.DNS.Flags;
 import org.xbill.DNS.MXRecord;
 import org.xbill.DNS.Message;
+import org.xbill.DNS.OPTRecord;
 import org.xbill.DNS.PTRRecord;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.SRVRecord;
@@ -118,16 +119,18 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
             long timestamp = new Date(ts_stamp).getTime();
             boolean signed = dns.isSigned();
             int id = dns.getHeader().getID();
-            String mode = dns.getHeader().getFlag(Flags.QR)?"response":"question";
+
+            //String mode = dns.getHeader().getFlag(Flags.QR)?"response":"question";
             
             for(Record rec : dns.getSectionArray(Section.QUESTION))
             {
             	int i = 0;
-            	Tuple t = TupleFactory.getInstance().newTuple(13);
+                OPTRecord r = dns.getOPT();
+            	Tuple t = TupleFactory.getInstance().newTuple(14);
             	t.set(i++, timestamp); // transaction id
             	t.set(i++, id);
             	t.set(i++, signed);
-            	t.set(i++, mode); // mode ('query' or 'response')
+            	t.set(i++, "question"); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
                 t.set(i++, null); // answer.ip OR null (for ques)
                 t.set(i++, 0); // qttl
@@ -137,17 +140,19 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, dstPort);
                 t.set(i++, rec.getDClass());
                 t.set(i++, rec.getType());
+                t.set(i++, r.rdataToString());
                 tupleQueue.add(t);
             }
             
             for(Record rec : dns.getSectionArray(Section.ANSWER))
             {	
             	int i = 0;
-            	Tuple t = TupleFactory.getInstance().newTuple(13);
+            	OPTRecord r = dns.getOPT();
+            	Tuple t = TupleFactory.getInstance().newTuple(14);
                 t.set(i++, timestamp); // transaction id
                 t.set(i++, id);
                 t.set(i++, signed);
-                t.set(i++, mode); // mode ('query' or 'response')
+                t.set(i++, "answer"); // mode ('query' or 'response')
                 t.set(i++, rec.getName().toString()); // qname
                 
                 if (rec instanceof ARecord) {
@@ -179,6 +184,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, dstPort);
                 t.set(i++, rec.getDClass());
                 t.set(i++, rec.getType());
+                t.set(i++, r.rdataToString());
                 tupleQueue.add(t);
             }
             
