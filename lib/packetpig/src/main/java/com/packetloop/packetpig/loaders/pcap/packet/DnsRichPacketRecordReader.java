@@ -140,7 +140,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, dstPort);
                 t.set(i++, rec.getDClass());
                 t.set(i++, rec.getType());
-                if(r.rdataToString() != null){
+                if(r != null){
                 	t.set(i++, r.rdataToString());
                 } else {
                 	t.set(i++, "");
@@ -188,7 +188,7 @@ public class DnsRichPacketRecordReader extends PcapRecordReader {
                 t.set(i++, dstPort);
                 t.set(i++, rec.getDClass());
                 t.set(i++, rec.getType());
-                if(r.rdataToString() != null){
+                if(r != null){
                 	t.set(i++, r.rdataToString());
                 } else {
                 	t.set(i++, "");
